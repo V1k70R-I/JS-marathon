@@ -1,4 +1,6 @@
-const $btn = document.getElementById('btn-kick');
+const $btnDefaultAttack = document.getElementById('btn-kick-default');
+const $btnCharcterUltimateaAttack = document.getElementById('btn-kick-ult-character');
+const $btnEnemyUltimateAttack = document.getElementById('btn-kick-ult-enemy');
 
 const character = {
   name: 'Pikachu',
@@ -17,10 +19,20 @@ const enemy = {
 
 }
 
-$btn.addEventListener('click', function () {
+$btnDefaultAttack.addEventListener('click', function () {
   console.log('Kick');
-  changeHP(random(20),character);
+  changeHP(random(10),character);
+  changeHP(random(10),enemy);
+})
+
+$btnCharcterUltimateaAttack.addEventListener('click', function () {
+  console.log(character + 'Kick');
   changeHP(random(20),enemy);
+})
+
+$btnEnemyUltimateAttack.addEventListener('click', function () {
+  console.log(enemy + 'Kick');
+  changeHP(random(20), character);
 })
 
 function init() {
@@ -46,7 +58,9 @@ function changeHP(count, person) {
   if (person.damageHP < count) {
     person.damageHP = 0;
     alert('Бедныи ' + person.name + ' проиграл!');
-    $btn.disabled = true;
+    $btnDefaultAttack.disabled = true;
+    $btnCharcterUltimateaAttack.disabled = true;
+    $btnEnemyUltimateAttack.disabled = true;
   }else {
       person.damageHP -= count;
   }
@@ -55,7 +69,7 @@ function changeHP(count, person) {
 }
 
 function random(num) {
-  return Math.ceil(Math.random()*num)
+  return Math.ceil(10+Math.random()*num)
 }
 
 init();
