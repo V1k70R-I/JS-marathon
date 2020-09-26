@@ -25,12 +25,10 @@ $btnDefaultAttack.addEventListener('click', function () {
 })
 
 $btnCharcterUltimateaAttack.addEventListener('click', function () {
-  console.log(character + 'Kick');
   changeHP(random(20),enemy);
 })
 
 $btnEnemyUltimateAttack.addEventListener('click', function () {
-  console.log(enemy + 'Kick');
   changeHP(random(20), character);
 })
 
