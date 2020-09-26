@@ -20,7 +20,6 @@ const enemy = {
 }
 
 $btnDefaultAttack.addEventListener('click', function () {
-  console.log('Kick');
   changeHP(random(10),character);
   changeHP(random(10),enemy);
 })
