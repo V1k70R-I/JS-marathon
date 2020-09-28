@@ -7,7 +7,11 @@ const character = {
   defaultHP: 100,
   damageHP: 100,
   elHP: document.getElementById('health-character'),
-  elProgressbar: document.getElementById('progressbar-character')
+  elProgressbar: document.getElementById('progressbar-character'),
+  renderHP: renderHP,
+  changeHP: changeHP,
+  renderHPLife: renderHPLife,
+  renderProgressbarHP: renderProgressbarHP,
 }
 
 const enemy = {
@@ -15,54 +19,56 @@ const enemy = {
   defaultHP: 100,
   damageHP: 100,
   elHP: document.getElementById('health-enemy'),
-  elProgressbar: document.getElementById('progressbar-enemy')
-
+  elProgressbar: document.getElementById('progressbar-enemy'),
+  renderHP: renderHP,
+  changeHP: changeHP,
+  renderHPLife: renderHPLife,
+  renderProgressbarHP: renderProgressbarHP,
 }
 
 $btnDefaultAttack.addEventListener('click', function () {
-  changeHP(random(10),character);
-  changeHP(random(10),enemy);
+  character.changeHP(random(10));
+  enemy.changeHP(random(10));
 })
 
 $btnCharcterUltimateaAttack.addEventListener('click', function () {
-  changeHP(random(20),enemy);
+  enemy.changeHP(random(20));
 })
 
 $btnEnemyUltimateAttack.addEventListener('click', function () {
-  changeHP(random(20), character);
+  character.changeHP(random(20));
 })
 
 function init() {
-  console.log('Start Game!');
-  renderHP(character);
-  renderHP(enemy);
+  character.renderHP();
+  enemy.renderHP();
 }
 
-function renderHP(person) {
-  renderHPLife(person);
-  renderProgressbarHP(person);
+function renderHP() {
+  this.renderHPLife();
+  this.renderProgressbarHP();
 }
 
-function renderHPLife(person) {
-  person.elHP.innerText = person.damageHP + '/' + person.defaultHP;
+function renderHPLife() {
+  this.elHP.innerText = this.damageHP + '/' + this.defaultHP;
 }
 
-function renderProgressbarHP(person) {
-  person.elProgressbar.style.width = person.damageHP + '%';
+function renderProgressbarHP() {
+  this.elProgressbar.style.width = (this.damageHP/this.defaultHP)*100 + '%';
 }
 
-function changeHP(count, person) {
-  if (person.damageHP < count) {
-    person.damageHP = 0;
-    alert('Бедныи ' + person.name + ' проиграл!');
+function changeHP(count) {
+  if (this.damageHP < count) {
+    this.damageHP = 0;
+    alert('Бедныи ' + this.name + ' проиграл!');
     $btnDefaultAttack.disabled = true;
     $btnCharcterUltimateaAttack.disabled = true;
     $btnEnemyUltimateAttack.disabled = true;
   }else {
-      person.damageHP -= count;
+      this.damageHP -= count;
   }
 
-  renderHP(person)
+  this.renderHP()
 }
 
 function random(num) {
