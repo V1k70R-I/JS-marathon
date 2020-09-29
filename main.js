@@ -8,10 +8,10 @@ const character = {
   damageHP: 100,
   elHP: document.getElementById('health-character'),
   elProgressbar: document.getElementById('progressbar-character'),
-  renderHP: renderHP,
-  changeHP: changeHP,
-  renderHPLife: renderHPLife,
-  renderProgressbarHP: renderProgressbarHP,
+  renderHP,
+  changeHP,
+  renderHPLife,
+  renderProgressbarHP,
 }
 
 const enemy = {
@@ -20,10 +20,10 @@ const enemy = {
   damageHP: 100,
   elHP: document.getElementById('health-enemy'),
   elProgressbar: document.getElementById('progressbar-enemy'),
-  renderHP: renderHP,
-  changeHP: changeHP,
-  renderHPLife: renderHPLife,
-  renderProgressbarHP: renderProgressbarHP,
+  renderHP,
+  changeHP,
+  renderHPLife,
+  renderProgressbarHP,
 }
 
 $btnDefaultAttack.addEventListener('click', function () {
