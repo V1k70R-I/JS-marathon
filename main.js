@@ -1,6 +1,6 @@
 const $btnDefaultAttack = document.getElementById('btn-kick-default');
 const $btnCharcterUltimateaAttack = document.getElementById('btn-kick-ult-character');
-const $btnEnemyUltimateAttack = document.getElementById('btn-kick-ult-enemy');
+const $btnLowKick = document.getElementById('btn-kick-ult-enemy');
 const $logs = document.getElementById('logs');
 
 const character = {
@@ -27,22 +27,30 @@ const enemy = {
   renderProgressbarHP,
 }
 
+$btnLowKick.addEventListener('click', function () {
+  character.changeHP(damage = random(36));
+  enemy.changeHP(damage = random(12));
+  $btnLowKick.innerText = leftLowKickHits("Low Kick")
+})
+
 $btnDefaultAttack.addEventListener('click', function () {
-  character.changeHP(damage = random(20));
-  enemy.changeHP(damage = random(20));
+  character.changeHP(damage = random(18));
+  enemy.changeHP(damage = random(18));
+  $btnDefaultAttack.innerText = leftDefaultAttackHits("Default Attack")
 })
 
 $btnCharcterUltimateaAttack.addEventListener('click', function () {
-  enemy.changeHP(damage = random(30));
-})
-
-$btnEnemyUltimateAttack.addEventListener('click', function () {
-  character.changeHP(damage = random(30));
+  character.changeHP(damage = random(12));
+  enemy.changeHP(damage = random(36));
+  $btnCharcterUltimateaAttack.innerText = leftUltimateHits("Ultimate")
 })
 
 function init() {
   character.renderHP();
   enemy.renderHP();
+  $btnLowKick.innerText = leftLowKickHits("Low Kick")
+  $btnDefaultAttack.innerText = leftDefaultAttackHits("Default Attack")
+  $btnCharcterUltimateaAttack.innerText = leftUltimateHits("Ultimate")
 }
 
 function renderHP() {
@@ -64,26 +72,24 @@ function changeHP(count) {
     alert('Бедныи ' + this.name + ' проиграл!');
     $btnDefaultAttack.disabled = true;
     $btnCharcterUltimateaAttack.disabled = true;
-    $btnEnemyUltimateAttack.disabled = true;
+    $btnLowKick.disabled = true;
     const log = this == enemy ? generateLog(this, character) : generateLog(this, enemy);
     const $p = document.createElement('p');
-    $p.innerText =  log;
+    $p.innerText =  currentCountHits() + "." + log;
     $logs.insertBefore($p, $logs.children[0]);
   } else {
     this.damageHP -= count;
 
     const log = this == enemy ? generateLog(this, character) : generateLog(this, enemy);
     const $p = document.createElement('p');
-    $p.innerText =  log;
+    $p.innerText =  currentCountHits() + "." + log;
     $logs.insertBefore($p, $logs.children[0]);
   }
 
   this.renderHP()
 }
 
-function random(num) {
-  return Math.ceil(Math.random()*num)
-}
+const random = (num) => Math.ceil(Math.random()*num)
 
 function generateLog(firstPerson, secondPerson) {
   const logs = [
@@ -101,5 +107,31 @@ function generateLog(firstPerson, secondPerson) {
 
 return logs[Math.floor(Math.random() * logs.length)];
 }
+
+let startCount = 1;
+
+function countHits(num) {
+  return function countHitsButton() {
+    return num++
+  }
+}
+
+const currentCountHits = countHits(startCount);
+
+function counterBtnClicks(btnName, maxCLicks) {
+  return function leftBtnClicks(nameAttack) {
+    // console.log(maxCLicks);
+    if (maxCLicks == 0) {
+      btnName.disabled = true
+      return nameAttack +  maxCLicks--
+    } else {
+      return nameAttack + " ("+ maxCLicks-- + ")"
+    }
+  }
+}
+
+const leftLowKickHits = counterBtnClicks($btnLowKick, 5)
+const leftDefaultAttackHits = counterBtnClicks($btnDefaultAttack, 100)
+const leftUltimateHits = counterBtnClicks($btnCharcterUltimateaAttack, 3)
 
 init();
