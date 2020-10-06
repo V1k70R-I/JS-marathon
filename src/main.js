@@ -1,21 +1,7 @@
-import Pokemon from './pokemoncreate.js'
 import random from './utils.js'
 import {$btnLowKick, $btnDefaultAttack, $btnCharcterUltimateaAttack, $logs} from './elements.js'
 import generateLog from './logs.js'
-
-const player1 = new Pokemon({
-  name: 'Pikachu',
-  type: 'electric',
-  hp: 100,
-  selectors: 'character',
-});
-
-const player2 = new Pokemon({
-  name: 'Charmander',
-  hp: 100,
-  type: 'fire',
-  selectors: 'enemy'
-})
+import { player1, player2 } from './pokemonscreate.js'
 
 $btnLowKick.addEventListener('click', function () {
   player1.changeHP(random(36), function(count) {
