@@ -1,6 +1,10 @@
-function generateLog(player1, player2, count) {
-  const { name, hp: { current, total} } = player1;
-  const { name: enemyName } = player2;
+import { player1, player2 } from './pokemonscreate.js'
+import {currentCountHits} from './main.js'
+import {$btnLowKick, $btnDefaultAttack, $btnCharcterUltimateaAttack, $logs} from './elements.js'
+
+function generateLog(whoDamaged, whoHit, count) {
+  const { name, hp: { current, total} } = whoDamaged;
+  const { name: enemyName } = whoHit;
 
   const logs = [
     `${name} вспомнил что-то важное, но неожиданно ${enemyName}, не помня себя от испуга, ударил в предплечье врага. - ${count}  hp. У ${name} [${current}/${total}]`,
@@ -18,4 +22,14 @@ function generateLog(player1, player2, count) {
 return logs[Math.floor(Math.random() * logs.length)];
 }
 
-export default generateLog;
+function writeLog(whoDamaged, whoHit) {
+  return function writeLog4Selectors(damage) {
+    const log = generateLog(whoDamaged, whoHit, damage);
+    const $p = document.createElement('p');
+    $p.innerText =  currentCountHits() + "." + log;
+    $logs.insertBefore($p, $logs.children[0]);
+  }
+}
+
+export const writeLog4Player = writeLog(player1, player2)
+export const writeLog4Enemy = writeLog(player2, player1)

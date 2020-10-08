@@ -1,86 +1,36 @@
 import random from './utils.js'
 import {$btnLowKick, $btnDefaultAttack, $btnCharcterUltimateaAttack, $logs} from './elements.js'
-import generateLog from './logs.js'
+import { generateLog, writeLog4Player, writeLog4Enemy} from './logs.js'
 import { player1, player2 } from './pokemonscreate.js'
+import { countHits, counterBtnClicks } from './buttons.js'
+
+
+export const currentCountHits = countHits(1);
+
+const leftLowKickHits = counterBtnClicks(4, $btnLowKick)
+const leftDefaultAttackHits = counterBtnClicks(100, $btnDefaultAttack)
+const leftUltimateHits = counterBtnClicks(5, $btnCharcterUltimateaAttack)
 
 $btnLowKick.addEventListener('click', function () {
-  player1.changeHP(random(36), function(count) {
-    const log = generateLog(player1, player2, count);
-    const $p = document.createElement('p');
-    $p.innerText =  currentCountHits() + "." + log;
-    $logs.insertBefore($p, $logs.children[0]);
-  });
-  player2.changeHP(random(12), function(count) {
-    const log = generateLog(player2, player1, count);
-    const $p = document.createElement('p');
-    $p.innerText =  currentCountHits() + "." + log;
-    $logs.insertBefore($p, $logs.children[0]);
-  });
-  $btnLowKick.innerText = leftLowKickHits("Low Kick")
+  leftLowKickHits()
+  const damagePerHitPlayer = player1.changeHP(random(36))
+  writeLog4Player(damagePerHitPlayer)
+  const damagePerHitEnemy = player2.changeHP(random(12))
+  writeLog4Enemy(damagePerHitEnemy)
 })
 
 $btnDefaultAttack.addEventListener('click', function () {
-  player1.changeHP(random(18), function(count) {
-    const log = generateLog(player1, player2, count);
-    const $p = document.createElement('p');
-    $p.innerText =  currentCountHits() + "." + log;
-    $logs.insertBefore($p, $logs.children[0]);
-  });
-  player2.changeHP(random(18), function(count) {
-    const log = generateLog(player2, player1, count);
-    const $p = document.createElement('p');
-    $p.innerText =  currentCountHits() + "." + log;
-    $logs.insertBefore($p, $logs.children[0]);
-  });
-  $btnDefaultAttack.innerText = leftDefaultAttackHits("Default Attack")
+  leftDefaultAttackHits()
+  const damagePerHitPlayer = player1.changeHP(random(18))
+  writeLog4Player(damagePerHitPlayer)
+  const damagePerHitEnemy = player2.changeHP(random(18))
+  writeLog4Enemy(damagePerHitEnemy)
 })
 
 $btnCharcterUltimateaAttack.addEventListener('click', function () {
-  player1.changeHP(random(12), function(count) {
-    const log = generateLog(player1, player2, count);
-    const $p = document.createElement('p');
-    $p.innerText =  currentCountHits() + "." + log;
-    $logs.insertBefore($p, $logs.children[0]);
-  });
-  player2.changeHP(random(36), function(count) {
-    const log = generateLog(player2, player1, count);
-    const $p = document.createElement('p');
-    $p.innerText =  currentCountHits() + "." + log;
-    $logs.insertBefore($p, $logs.children[0]);
-  });
-  $btnCharcterUltimateaAttack.innerText = leftUltimateHits("Ultimate")
+  leftUltimateHits()
+  const damagePerHitPlayer = player1.changeHP(random(12))
+  writeLog4Player(damagePerHitPlayer)
+  const damagePerHitEnemy = player2.changeHP(random(36))
+  writeLog4Enemy(damagePerHitEnemy)
 })
-
-function init() {
-  $btnLowKick.innerText = leftLowKickHits("Low Kick");
-  $btnDefaultAttack.innerText = leftDefaultAttackHits("Default Attack");
-  $btnCharcterUltimateaAttack.innerText = leftUltimateHits("Ultimate");
-}
-
-let startCount = 1;
-
-function countHits(num) {
-  return function countHitsButton() {
-    return num++
-  }
-}
-
-const currentCountHits = countHits(startCount);
-
-function counterBtnClicks(btnName, maxCLicks) {
-  return function leftBtnClicks(nameAttack) {
-    // console.log(maxCLicks);
-    if (maxCLicks == 0) {
-      btnName.disabled = true
-      return nameAttack +  maxCLicks--
-    } else {
-      return nameAttack + " ("+ maxCLicks-- + ")"
-    }
-  }
-}
-
-const leftLowKickHits = counterBtnClicks($btnLowKick, 5)
-const leftDefaultAttackHits = counterBtnClicks($btnDefaultAttack, 100)
-const leftUltimateHits = counterBtnClicks($btnCharcterUltimateaAttack, 3)
-
-init()
