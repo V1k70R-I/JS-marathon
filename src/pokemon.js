@@ -1,4 +1,3 @@
-import {$btnLowKick, $btnDefaultAttack, $btnCharcterUltimateaAttack, $logs} from './elements.js'
 import { player1, player2 } from './pokemonscreate.js'
 
 class Selectors {
@@ -9,7 +8,7 @@ class Selectors {
 }
 
 class Pokemon extends Selectors {
-  constructor({name, hp, type, selectors}){
+  constructor({name, hp, type, selectors, attacks = []}){
     super(selectors);
 
     this.name = name;
@@ -18,6 +17,7 @@ class Pokemon extends Selectors {
       total: hp,
     };
     this.type = type;
+    this.attacks = attacks;
 
     this.renderHP();
   }
@@ -30,9 +30,6 @@ class Pokemon extends Selectors {
       } else if (this.name === 'Charmander') {
         alert('ТЫ ПОБЕДИЛ!!!  ')
       }
-      $btnDefaultAttack.disabled = true;
-      $btnCharcterUltimateaAttack.disabled = true;
-      $btnLowKick.disabled = true;
     }else {
       this.hp.current -= count;
     }
