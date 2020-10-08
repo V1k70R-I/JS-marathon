@@ -1,4 +1,5 @@
 import {$btnLowKick, $btnDefaultAttack, $btnCharcterUltimateaAttack, $logs} from './elements.js'
+import { player1, player2 } from './pokemonscreate.js'
 
 class Selectors {
   constructor (name) {
@@ -21,7 +22,7 @@ class Pokemon extends Selectors {
     this.renderHP();
   }
 
-  changeHP = (count, cb) => {
+  changeHP = (count) => {
     if (this.hp.current <= count) {
       this.hp.current = 0;
       if (this.name === 'Pikachu') {
@@ -36,8 +37,8 @@ class Pokemon extends Selectors {
       this.hp.current -= count;
     }
 
-    this.renderHP()
-    cb && cb(count);
+    this.renderHP();
+    return count;
   }
   renderHP = () => {
     this.renderHPLife();
