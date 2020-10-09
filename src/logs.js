@@ -1,6 +1,7 @@
 import { player1, player2 } from './pokemonscreate.js'
 import {currentCountHits} from './main.js'
-import {$btnLowKick, $btnDefaultAttack, $btnCharcterUltimateaAttack, $logs} from './elements.js'
+
+const $logs = document.getElementById('logs')
 
 function generateLog(whoDamaged, whoHit, count) {
   const { name, hp: { current, total} } = whoDamaged;

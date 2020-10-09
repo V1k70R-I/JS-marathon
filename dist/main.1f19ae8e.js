@@ -133,26 +133,6 @@ function random(max) {
 
 var _default = random;
 exports.default = _default;
-},{}],"elements.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.$logs = exports.$btnLowKick = exports.$btnCharcterUltimateaAttack = exports.$btnDefaultAttack = void 0;
-
-function $getElementById(id) {
-  return document.getElementById(id);
-}
-
-var $btnDefaultAttack = $getElementById('btn-kick-default');
-exports.$btnDefaultAttack = $btnDefaultAttack;
-var $btnCharcterUltimateaAttack = $getElementById('btn-kick-ult-character');
-exports.$btnCharcterUltimateaAttack = $btnCharcterUltimateaAttack;
-var $btnLowKick = $getElementById('btn-kick-low-kick');
-exports.$btnLowKick = $btnLowKick;
-var $logs = $getElementById('logs');
-exports.$logs = $logs;
 },{}],"pokemon.js":[function(require,module,exports) {
 "use strict";
 
@@ -161,9 +141,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _elements = require("./elements.js");
-
 var _pokemonscreate = require("./pokemonscreate.js");
+
+var _main = require("./main.js");
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -203,25 +183,35 @@ var Pokemon = /*#__PURE__*/function (_Selectors) {
     var name = _ref.name,
         hp = _ref.hp,
         type = _ref.type,
-        selectors = _ref.selectors;
+        selectors = _ref.selectors,
+        _ref$attacks = _ref.attacks,
+        attacks = _ref$attacks === void 0 ? [] : _ref$attacks;
 
     _classCallCheck(this, Pokemon);
 
     _this = _super.call(this, selectors);
 
     _defineProperty(_assertThisInitialized(_this), "changeHP", function (count) {
+      var $control = document.querySelector('.control');
+
       if (_this.hp.current <= count) {
         _this.hp.current = 0;
 
         if (_this.name === 'Pikachu') {
-          alert('ТЫ ПРОИГРАЛ!!!');
+          var allButtons = document.querySelectorAll('.control .button');
+          allButtons.forEach(function ($item) {
+            return $item.remove();
+          });
+          var $btnRestartGame = document.createElement('button');
+          $btnRestartGame.classList.add('button');
+          $btnRestartGame.innerText = 'Restart Game!!!';
+          $control.appendChild($btnRestartGame);
+          $btnRestartGame.addEventListener('click', function () {
+            $btnRestartGame.remove();
+          });
         } else if (_this.name === 'Charmander') {
-          alert('ТЫ ПОБЕДИЛ!!!  ');
+          console.log("Ты победил");
         }
-
-        _elements.$btnDefaultAttack.disabled = true;
-        _elements.$btnCharcterUltimateaAttack.disabled = true;
-        _elements.$btnLowKick.disabled = true;
       } else {
         _this.hp.current -= count;
       }
@@ -264,6 +254,7 @@ var Pokemon = /*#__PURE__*/function (_Selectors) {
       total: hp
     };
     _this.type = type;
+    _this.attacks = attacks;
 
     _this.renderHP();
 
@@ -275,7 +266,172 @@ var Pokemon = /*#__PURE__*/function (_Selectors) {
 
 var _default = Pokemon;
 exports.default = _default;
-},{"./elements.js":"elements.js","./pokemonscreate.js":"pokemonscreate.js"}],"pokemonscreate.js":[function(require,module,exports) {
+},{"./pokemonscreate.js":"pokemonscreate.js","./main.js":"main.js"}],"pokemons.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.pokemons = void 0;
+var pokemons = [{
+  name: 'Pikachu',
+  type: 'electric',
+  hp: 274,
+  img: 'http://sify4321.000webhostapp.com/pikachu.png',
+  attacks: [{
+    name: "thunder jolt",
+    maxDamage: 40,
+    minDamage: 20,
+    maxCount: 100
+  }, {
+    name: "electro ball",
+    maxDamage: 60,
+    minDamage: 45,
+    maxCount: 6
+  }, {
+    name: "volt tackle",
+    maxDamage: 75,
+    minDamage: 60,
+    maxCount: 4
+  }, {
+    name: "thunder crack",
+    maxDamage: 160,
+    minDamage: 130,
+    maxCount: 2
+  }]
+}, {
+  img: 'http://sify4321.000webhostapp.com/charmander.png',
+  name: 'Charmander',
+  type: 'fire',
+  hp: 282,
+  attacks: [{
+    name: "ember",
+    maxDamage: 40,
+    minDamage: 20,
+    maxCount: 100
+  }, {
+    name: "flamethrower",
+    maxDamage: 60,
+    minDamage: 45,
+    maxCount: 6
+  }, {
+    name: "burning tail",
+    maxDamage: 75,
+    minDamage: 60,
+    maxCount: 4
+  }, {
+    name: "fire spin",
+    maxDamage: 130,
+    minDamage: 110,
+    maxCount: 2
+  }]
+}, {
+  img: 'http://sify4321.000webhostapp.com/bulbasaur.png',
+  name: 'Bulbasaur',
+  type: 'fire',
+  hp: 294,
+  attacks: [{
+    name: "tackle",
+    maxDamage: 40,
+    minDamage: 20,
+    maxCount: 100
+  }, {
+    name: "vine whip",
+    maxDamage: 60,
+    minDamage: 45,
+    maxCount: 6
+  }, {
+    name: "razor leaf",
+    maxDamage: 75,
+    minDamage: 60,
+    maxCount: 4
+  }, {
+    name: "solar beam",
+    maxDamage: 130,
+    minDamage: 110,
+    maxCount: 2
+  }]
+}, {
+  img: 'http://sify4321.000webhostapp.com/squirtle.png',
+  name: 'Squirtle',
+  type: 'water',
+  hp: 292,
+  attacks: [{
+    name: "bubble",
+    maxDamage: 40,
+    minDamage: 20,
+    maxCount: 100
+  }, {
+    name: "water gun",
+    maxDamage: 60,
+    minDamage: 45,
+    maxCount: 6
+  }, {
+    name: "shell attack",
+    maxDamage: 75,
+    minDamage: 60,
+    maxCount: 4
+  }, {
+    name: "hydro pump",
+    maxDamage: 130,
+    minDamage: 110,
+    maxCount: 2
+  }]
+}, {
+  img: 'http://sify4321.000webhostapp.com/pidgey.png',
+  name: 'Pidgey',
+  type: 'air',
+  hp: 284,
+  attacks: [{
+    name: "Air Slash",
+    maxDamage: 40,
+    minDamage: 20,
+    maxCount: 100
+  }, {
+    name: "Razor Wind",
+    maxDamage: 60,
+    minDamage: 45,
+    maxCount: 6
+  }, {
+    name: "Heat Wave",
+    maxDamage: 75,
+    minDamage: 60,
+    maxCount: 4
+  }, {
+    name: "Sky Attack",
+    maxDamage: 130,
+    minDamage: 110,
+    maxCount: 2
+  }]
+}, {
+  img: 'http://sify4321.000webhostapp.com/mew.png',
+  name: 'Mew',
+  type: 'air',
+  hp: 404,
+  attacks: [{
+    name: "Pound",
+    maxDamage: 40,
+    minDamage: 20,
+    maxCount: 100
+  }, {
+    name: "Ancient Power",
+    maxDamage: 60,
+    minDamage: 45,
+    maxCount: 6
+  }, {
+    name: "Aura Sphere",
+    maxDamage: 75,
+    minDamage: 60,
+    maxCount: 4
+  }, {
+    name: "Psychic",
+    maxDamage: 130,
+    minDamage: 110,
+    maxCount: 2
+  }]
+}];
+exports.pokemons = pokemons;
+},{}],"pokemonscreate.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -285,23 +441,34 @@ exports.player2 = exports.player1 = void 0;
 
 var _pokemon = _interopRequireDefault(require("./pokemon.js"));
 
+var _pokemons = require("./pokemons.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var player1 = new _pokemon.default({
-  name: 'Pikachu',
-  type: 'electric',
-  hp: 100,
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var pikachu = _pokemons.pokemons.find(function (item) {
+  return item.name === 'Pikachu';
+});
+
+var player1 = new _pokemon.default(_objectSpread(_objectSpread({}, pikachu), {}, {
   selectors: 'character'
-});
+}));
 exports.player1 = player1;
-var player2 = new _pokemon.default({
-  name: 'Charmander',
-  hp: 100,
-  type: 'fire',
-  selectors: 'enemy'
+
+var charmander = _pokemons.pokemons.find(function (item) {
+  return item.name === 'Charmander';
 });
+
+var player2 = new _pokemon.default(_objectSpread(_objectSpread({}, charmander), {}, {
+  selectors: 'enemy'
+}));
 exports.player2 = player2;
-},{"./pokemon.js":"pokemon.js"}],"logs.js":[function(require,module,exports) {
+},{"./pokemon.js":"pokemon.js","./pokemons.js":"pokemons.js"}],"logs.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -313,7 +480,7 @@ var _pokemonscreate = require("./pokemonscreate.js");
 
 var _main = require("./main.js");
 
-var _elements = require("./elements.js");
+var $logs = document.getElementById('logs');
 
 function generateLog(whoDamaged, whoHit, count) {
   var name = whoDamaged.name,
@@ -330,8 +497,7 @@ function writeLog(whoDamaged, whoHit) {
     var log = generateLog(whoDamaged, whoHit, damage);
     var $p = document.createElement('p');
     $p.innerText = (0, _main.currentCountHits)() + "." + log;
-
-    _elements.$logs.insertBefore($p, _elements.$logs.children[0]);
+    $logs.insertBefore($p, $logs.children[0]);
   };
 }
 
@@ -339,7 +505,7 @@ var writeLog4Player = writeLog(_pokemonscreate.player1, _pokemonscreate.player2)
 exports.writeLog4Player = writeLog4Player;
 var writeLog4Enemy = writeLog(_pokemonscreate.player2, _pokemonscreate.player1);
 exports.writeLog4Enemy = writeLog4Enemy;
-},{"./pokemonscreate.js":"pokemonscreate.js","./main.js":"main.js","./elements.js":"elements.js"}],"buttons.js":[function(require,module,exports) {
+},{"./pokemonscreate.js":"pokemonscreate.js","./main.js":"main.js"}],"buttons.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -347,8 +513,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.countHits = countHits;
 exports.counterBtnClicks = counterBtnClicks;
-
-var _elements = require("./elements.js");
 
 function countHits(num) {
   return function countHitsButton() {
@@ -370,17 +534,16 @@ function counterBtnClicks(maxCLicks, btnName) {
     return maxCLicks;
   };
 }
-},{"./elements.js":"elements.js"}],"main.js":[function(require,module,exports) {
+},{}],"main.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.startGame = startGame;
 exports.currentCountHits = void 0;
 
 var _utils = _interopRequireDefault(require("./utils.js"));
-
-var _elements = require("./elements.js");
 
 var _logs = require("./logs.js");
 
@@ -392,46 +555,43 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var currentCountHits = (0, _buttons.countHits)(1);
 exports.currentCountHits = currentCountHits;
-var leftLowKickHits = (0, _buttons.counterBtnClicks)(4, _elements.$btnLowKick);
-var leftDefaultAttackHits = (0, _buttons.counterBtnClicks)(100, _elements.$btnDefaultAttack);
-var leftUltimateHits = (0, _buttons.counterBtnClicks)(5, _elements.$btnCharcterUltimateaAttack);
+var $control = document.querySelector('.control');
+var enemyDefaultAttack = _pokemonscreate.player2.attacks[0];
+var $btnStartGame = document.createElement('button');
+$btnStartGame.classList.add('button');
+$btnStartGame.innerText = 'Start Game!!!';
+$control.appendChild($btnStartGame);
 
-_elements.$btnLowKick.addEventListener('click', function () {
-  leftLowKickHits();
+function startGame($btnStart) {
+  $btnStart.addEventListener('click', function () {
+    $btnStart.remove();
+    allButtonsKick();
+  });
+}
 
-  var damagePerHitPlayer = _pokemonscreate.player1.changeHP((0, _utils.default)(36));
+startGame($btnStartGame);
 
-  (0, _logs.writeLog4Player)(damagePerHitPlayer);
+var allButtonsKick = function allButtonsKick() {
+  _pokemonscreate.player1.attacks.forEach(function (item) {
+    var $btnKick = document.createElement('button');
+    $btnKick.classList.add('button');
+    $btnKick.innerText = item.name;
+    $control.appendChild($btnKick);
+    var leftBtnClicks = (0, _buttons.counterBtnClicks)(item.maxCount, $btnKick);
+    $btnKick.addEventListener('click', function () {
+      leftBtnClicks();
 
-  var damagePerHitEnemy = _pokemonscreate.player2.changeHP((0, _utils.default)(12));
+      var damagePerHitEnemy = _pokemonscreate.player2.changeHP((0, _utils.default)(item.maxDamage, item.minDamage));
 
-  (0, _logs.writeLog4Enemy)(damagePerHitEnemy);
-});
+      (0, _logs.writeLog4Enemy)(damagePerHitEnemy);
 
-_elements.$btnDefaultAttack.addEventListener('click', function () {
-  leftDefaultAttackHits();
+      var damagePerHitPlayer = _pokemonscreate.player1.changeHP((0, _utils.default)(enemyDefaultAttack.maxDamage, enemyDefaultAttack.minDamage));
 
-  var damagePerHitPlayer = _pokemonscreate.player1.changeHP((0, _utils.default)(18));
-
-  (0, _logs.writeLog4Player)(damagePerHitPlayer);
-
-  var damagePerHitEnemy = _pokemonscreate.player2.changeHP((0, _utils.default)(18));
-
-  (0, _logs.writeLog4Enemy)(damagePerHitEnemy);
-});
-
-_elements.$btnCharcterUltimateaAttack.addEventListener('click', function () {
-  leftUltimateHits();
-
-  var damagePerHitPlayer = _pokemonscreate.player1.changeHP((0, _utils.default)(12));
-
-  (0, _logs.writeLog4Player)(damagePerHitPlayer);
-
-  var damagePerHitEnemy = _pokemonscreate.player2.changeHP((0, _utils.default)(36));
-
-  (0, _logs.writeLog4Enemy)(damagePerHitEnemy);
-});
-},{"./utils.js":"utils.js","./elements.js":"elements.js","./logs.js":"logs.js","./pokemonscreate.js":"pokemonscreate.js","./buttons.js":"buttons.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+      (0, _logs.writeLog4Player)(damagePerHitPlayer);
+    });
+  });
+};
+},{"./utils.js":"utils.js","./logs.js":"logs.js","./pokemonscreate.js":"pokemonscreate.js","./buttons.js":"buttons.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -459,7 +619,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64831" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51974" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

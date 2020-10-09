@@ -1,5 +1,5 @@
-import {$btnLowKick, $btnDefaultAttack, $btnCharcterUltimateaAttack, $logs} from './elements.js'
 import { player1, player2 } from './pokemonscreate.js'
+import {startGame} from './main.js'
 
 class Selectors {
   constructor (name) {
@@ -9,7 +9,7 @@ class Selectors {
 }
 
 class Pokemon extends Selectors {
-  constructor({name, hp, type, selectors}){
+  constructor({name, hp, type, selectors, attacks = []}){
     super(selectors);
 
     this.name = name;
@@ -18,21 +18,28 @@ class Pokemon extends Selectors {
       total: hp,
     };
     this.type = type;
+    this.attacks = attacks;
 
     this.renderHP();
   }
 
   changeHP = (count) => {
+    const $control = document.querySelector('.control')
     if (this.hp.current <= count) {
       this.hp.current = 0;
       if (this.name === 'Pikachu') {
-        alert('ТЫ ПРОИГРАЛ!!!')
+        const allButtons = document.querySelectorAll('.control .button');
+        allButtons.forEach($item => $item.remove());
+        const $btnRestartGame = document.createElement('button')
+        $btnRestartGame.classList.add('button')
+        $btnRestartGame.innerText = 'Restart Game!!!';
+        $control.appendChild($btnRestartGame);
+        $btnRestartGame.addEventListener('click', function () {
+          $btnRestartGame.remove()
+        })
       } else if (this.name === 'Charmander') {
-        alert('ТЫ ПОБЕДИЛ!!!  ')
+        console.log("Ты победил");
       }
-      $btnDefaultAttack.disabled = true;
-      $btnCharcterUltimateaAttack.disabled = true;
-      $btnLowKick.disabled = true;
     }else {
       this.hp.current -= count;
     }

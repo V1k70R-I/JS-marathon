@@ -1,15 +1,16 @@
 import Pokemon from './pokemon.js'
+import {pokemons} from './pokemons.js'
+
+const pikachu = pokemons.find(item => item.name === 'Pikachu');
 
 export const player1 = new Pokemon({
-  name: 'Pikachu',
-  type: 'electric',
-  hp: 100,
+  ...pikachu,
   selectors: 'character',
 });
 
+const charmander = pokemons.find(item => item.name === 'Charmander');
+
 export const player2 = new Pokemon({
-  name: 'Charmander',
-  hp: 100,
-  type: 'fire',
-  selectors: 'enemy'
+  ...charmander,
+  selectors: 'enemy',
 })
