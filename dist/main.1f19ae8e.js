@@ -143,6 +143,8 @@ exports.default = void 0;
 
 var _pokemonscreate = require("./pokemonscreate.js");
 
+var _main = require("./main.js");
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
@@ -190,13 +192,25 @@ var Pokemon = /*#__PURE__*/function (_Selectors) {
     _this = _super.call(this, selectors);
 
     _defineProperty(_assertThisInitialized(_this), "changeHP", function (count) {
+      var $control = document.querySelector('.control');
+
       if (_this.hp.current <= count) {
         _this.hp.current = 0;
 
         if (_this.name === 'Pikachu') {
-          alert('ТЫ ПРОИГРАЛ!!!');
+          var allButtons = document.querySelectorAll('.control .button');
+          allButtons.forEach(function ($item) {
+            return $item.remove();
+          });
+          var $btnRestartGame = document.createElement('button');
+          $btnRestartGame.classList.add('button');
+          $btnRestartGame.innerText = 'Restart Game!!!';
+          $control.appendChild($btnRestartGame);
+          $btnRestartGame.addEventListener('click', function () {
+            $btnRestartGame.remove();
+          });
         } else if (_this.name === 'Charmander') {
-          alert('ТЫ ПОБЕДИЛ!!!  ');
+          console.log("Ты победил");
         }
       } else {
         _this.hp.current -= count;
@@ -252,7 +266,7 @@ var Pokemon = /*#__PURE__*/function (_Selectors) {
 
 var _default = Pokemon;
 exports.default = _default;
-},{"./pokemonscreate.js":"pokemonscreate.js"}],"pokemons.js":[function(require,module,exports) {
+},{"./pokemonscreate.js":"pokemonscreate.js","./main.js":"main.js"}],"pokemons.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -526,6 +540,7 @@ function counterBtnClicks(maxCLicks, btnName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.startGame = startGame;
 exports.currentCountHits = void 0;
 
 var _utils = _interopRequireDefault(require("./utils.js"));
@@ -542,25 +557,40 @@ var currentCountHits = (0, _buttons.countHits)(1);
 exports.currentCountHits = currentCountHits;
 var $control = document.querySelector('.control');
 var enemyDefaultAttack = _pokemonscreate.player2.attacks[0];
+var $btnStartGame = document.createElement('button');
+$btnStartGame.classList.add('button');
+$btnStartGame.innerText = 'Start Game!!!';
+$control.appendChild($btnStartGame);
 
-_pokemonscreate.player1.attacks.forEach(function (item) {
-  var $btnKick = document.createElement('button');
-  $btnKick.classList.add('button');
-  $btnKick.innerText = item.name;
-  $control.appendChild($btnKick);
-  var leftBtnClicks = (0, _buttons.counterBtnClicks)(item.maxCount, $btnKick);
-  $btnKick.addEventListener('click', function () {
-    leftBtnClicks();
-
-    var damagePerHitEnemy = _pokemonscreate.player2.changeHP((0, _utils.default)(item.maxDamage, item.minDamage));
-
-    (0, _logs.writeLog4Enemy)(damagePerHitEnemy);
-
-    var damagePerHitPlayer = _pokemonscreate.player1.changeHP((0, _utils.default)(enemyDefaultAttack.maxDamage, enemyDefaultAttack.minDamage));
-
-    (0, _logs.writeLog4Player)(damagePerHitPlayer);
+function startGame($btnStart) {
+  $btnStart.addEventListener('click', function () {
+    $btnStart.remove();
+    allButtonsKick();
   });
-});
+}
+
+startGame($btnStartGame);
+
+var allButtonsKick = function allButtonsKick() {
+  _pokemonscreate.player1.attacks.forEach(function (item) {
+    var $btnKick = document.createElement('button');
+    $btnKick.classList.add('button');
+    $btnKick.innerText = item.name;
+    $control.appendChild($btnKick);
+    var leftBtnClicks = (0, _buttons.counterBtnClicks)(item.maxCount, $btnKick);
+    $btnKick.addEventListener('click', function () {
+      leftBtnClicks();
+
+      var damagePerHitEnemy = _pokemonscreate.player2.changeHP((0, _utils.default)(item.maxDamage, item.minDamage));
+
+      (0, _logs.writeLog4Enemy)(damagePerHitEnemy);
+
+      var damagePerHitPlayer = _pokemonscreate.player1.changeHP((0, _utils.default)(enemyDefaultAttack.maxDamage, enemyDefaultAttack.minDamage));
+
+      (0, _logs.writeLog4Player)(damagePerHitPlayer);
+    });
+  });
+};
 },{"./utils.js":"utils.js","./logs.js":"logs.js","./pokemonscreate.js":"pokemonscreate.js","./buttons.js":"buttons.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -589,7 +619,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57168" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51974" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

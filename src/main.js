@@ -9,7 +9,23 @@ const $control = document.querySelector('.control')
 
 const enemyDefaultAttack = player2.attacks[0]
 
-player1.attacks.forEach(item => {
+const $btnStartGame = document.createElement('button')
+$btnStartGame.classList.add('button')
+$btnStartGame.innerText = 'Start Game!!!';
+$control.appendChild($btnStartGame);
+
+export function startGame($btnStart) {
+  $btnStart.addEventListener('click', function () {
+    $btnStart.remove()
+    allButtonsKick()
+  })
+
+}
+
+startGame($btnStartGame);
+
+const allButtonsKick = () => {
+  player1.attacks.forEach(item => {
   const $btnKick = document.createElement('button')
   $btnKick.classList.add('button')
   $btnKick.innerText = item.name;
@@ -23,3 +39,4 @@ player1.attacks.forEach(item => {
     writeLog4Player(damagePerHitPlayer)
   })
 });
+}

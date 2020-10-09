@@ -1,4 +1,5 @@
 import { player1, player2 } from './pokemonscreate.js'
+import {startGame} from './main.js'
 
 class Selectors {
   constructor (name) {
@@ -23,12 +24,21 @@ class Pokemon extends Selectors {
   }
 
   changeHP = (count) => {
+    const $control = document.querySelector('.control')
     if (this.hp.current <= count) {
       this.hp.current = 0;
       if (this.name === 'Pikachu') {
-        alert('ТЫ ПРОИГРАЛ!!!')
+        const allButtons = document.querySelectorAll('.control .button');
+        allButtons.forEach($item => $item.remove());
+        const $btnRestartGame = document.createElement('button')
+        $btnRestartGame.classList.add('button')
+        $btnRestartGame.innerText = 'Restart Game!!!';
+        $control.appendChild($btnRestartGame);
+        $btnRestartGame.addEventListener('click', function () {
+          $btnRestartGame.remove()
+        })
       } else if (this.name === 'Charmander') {
-        alert('ТЫ ПОБЕДИЛ!!!  ')
+        console.log("Ты победил");
       }
     }else {
       this.hp.current -= count;
